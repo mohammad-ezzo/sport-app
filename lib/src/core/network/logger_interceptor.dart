@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
 
+// interceptor for dio instance for enabling network traffic loggin using the global logger
 class LoggerInterceptor extends Interceptor {
   LoggerInterceptor(
     this.logger, {
