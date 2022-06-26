@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: any
   json_annotation: ^4.4.0
   get_it: ^7.2.0
+  flutter_bloc:
 dev_dependencies:
   flutter_test:
     sdk: flutter
