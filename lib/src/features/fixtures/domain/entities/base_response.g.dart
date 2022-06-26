@@ -16,8 +16,9 @@ BaseReponse<T> _$BaseReponseFromJson<T>(
       parameters: (json['parameters'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      errors:
-          (json['errors'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      errors: (json['errors'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       results: json['results'] as int?,
       paging: json['paging'] == null
           ? null
