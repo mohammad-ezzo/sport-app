@@ -6,6 +6,9 @@ import 'package:sport_app/src/core/presentation/size_config.dart';
 import 'package:sport_app/src/features/fixtures/domain/entities/fixture.dart';
 import 'package:sport_app/src/features/fixtures/presentation/bloc/fixture_bloc.dart';
 import 'package:sport_app/src/injections.dart';
+import 'package:intl/intl.dart';
+
+import '../widgets/fixture_list_tile_widget.dart';
 
 class FixturesHomePage extends StatefulWidget {
   const FixturesHomePage({Key? key}) : super(key: key);
@@ -74,12 +77,7 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
                 itemCount: fixtures.length,
                 itemBuilder: (context, index) {
                   final fixture = fixtures[index];
-                  return Container(
-                    child: Row(
-                        children: [
-                          fixture.teams?.home.
-                        ]),
-                  );
+                  return FixtureListTileWidget(fixture: fixture);
                 }))
       ],
     );
@@ -94,10 +92,7 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
                 itemBuilder: (context, index) {
                   final fixture = fixtures[index];
 
-                  return Container(
-                    child: Row(
-                        children: [Text(fixture.info?.status?.short ?? "")]),
-                  );
+                  return FixtureListTileWidget(fixture: fixture);
                 }))
       ],
     );
