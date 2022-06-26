@@ -32,38 +32,47 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-            bottom: const TabBar(
-          tabs: [
-            Tab(
-              text: "Finished Games",
-            ),
-            Tab(
-              text: "Upcoming Games",
-            )
-          ],
-        )),
-        body: BlocBuilder(
-          bloc: _bloc,
-          builder: (context, state) {
-            if (state is LoadingFixtures) {
-              return const AppLoader();
-            }
-            if (state is FixturesReady) {
-              return TabBarView(children: [
-                buildFinishedGames(state.fixtures
-                    .where((element) => (element.info?.isFinished ?? false))
-                    .toList()),
-                buildUpcomingGames(state.fixtures
-                    .where((element) => !(element.info?.isFinished ?? true))
-                    .toList())
-              ]);
-            }
-            if (state is ErrorInFixtures) {
-              return AppErrorWidget(error: state.error);
-            }
-            return const SizedBox();
-          },
+        body: SafeArea(
+          child: Column(
+            children: [
+              const TabBar(
+                tabs: [
+                  Tab(
+                    text: "Finished Games",
+                  ),
+                  Tab(
+                    text: "Upcoming Games",
+                  )
+                ],
+              ),
+              Expanded(
+                child: BlocBuilder(
+                  bloc: _bloc,
+                  builder: (context, state) {
+                    if (state is LoadingFixtures) {
+                      return const AppLoader();
+                    }
+                    if (state is FixturesReady) {
+                      return TabBarView(children: [
+                        buildFinishedGames(state.fixtures
+                            .where((element) =>
+                                (element.info?.isFinished ?? false))
+                            .toList()),
+                        buildUpcomingGames(state.fixtures
+                            .where((element) =>
+                                !(element.info?.isFinished ?? true))
+                            .toList())
+                      ]);
+                    }
+                    if (state is ErrorInFixtures) {
+                      return AppErrorWidget(error: state.error);
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

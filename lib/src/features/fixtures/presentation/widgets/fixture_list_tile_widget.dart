@@ -12,50 +12,67 @@ class FixtureListTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    var goalsTextStyle =
+        const TextStyle(fontWeight: FontWeight.bold, fontSize: 19);
+    return Container(
       padding: const EdgeInsets.all(8.0),
-      child: Row(children: [
-        CircleAvatar(
-            backgroundImage: NetworkImage(fixture.teams?.home?.logo ?? "")),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Center(
-            child: Text(
-              fixture.teams?.home?.name ?? "",
-              maxLines: 1,
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      color: Colors.white10,
+      child: Column(
+        children: [
+          Text(DateFormat("dd-MMMM")
+              .format(DateTime.parse(fixture.info?.date ?? ""))),
+          Row(children: [
+            CircleAvatar(
+                backgroundImage: NetworkImage(fixture.teams?.home?.logo ?? "")),
+            const SizedBox(
+              width: 5,
             ),
-          ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Column(
-          children: [
-            Row(
-              children: [
-                Text((fixture.goals?.home?.toString() ?? "") + " : "),
-                Text(fixture.goals?.away?.toString() ?? "")
-              ],
+            Expanded(
+              child: Center(
+                child: Text(
+                  fixture.teams?.home?.name ?? "",
+                  maxLines: 1,
+                ),
+              ),
             ),
-            Text(DateFormat("dd-MMMM")
-                .format(DateTime.parse(fixture.info?.date ?? ""))),
-          ],
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-            child: Center(
-          child: Text(fixture.teams?.away?.name ?? "", maxLines: 1),
-        )),
-        const SizedBox(
-          width: 5,
-        ),
-        CircleAvatar(
-            backgroundImage: NetworkImage(fixture.teams?.away?.logo ?? ""))
-      ]),
+            const SizedBox(
+              width: 5,
+            ),
+            if (fixture.info?.isFinished ?? false)
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.indigo,
+                    borderRadius: BorderRadius.circular(5)),
+                padding: const EdgeInsets.all(4),
+                child: Row(
+                  children: [
+                    Text(
+                      (fixture.goals?.home?.toString() ?? "") + " : ",
+                      style: goalsTextStyle,
+                    ),
+                    Text(
+                      fixture.goals?.away?.toString() ?? "",
+                      style: goalsTextStyle,
+                    )
+                  ],
+                ),
+              ),
+            const SizedBox(
+              width: 5,
+            ),
+            Expanded(
+                child: Center(
+              child: Text(fixture.teams?.away?.name ?? "", maxLines: 1),
+            )),
+            const SizedBox(
+              width: 5,
+            ),
+            CircleAvatar(
+                backgroundImage: NetworkImage(fixture.teams?.away?.logo ?? ""))
+          ]),
+        ],
+      ),
     );
   }
 }
