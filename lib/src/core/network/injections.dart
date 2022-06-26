@@ -7,6 +7,7 @@ import 'logger_interceptor.dart';
 
 injectNetwork() async {
   locator.registerSingletonAsync<Dio>(() async {
+    var sportApiKey;
     final dio = Dio(BaseOptions(
         baseUrl: AppConstants.apiUrl,
         validateStatus: (s) {
@@ -17,6 +18,8 @@ injectNetwork() async {
           'Accept': 'application/json',
           "charset": "utf-8",
           "Accept-Charset": "utf-8",
+          'x-rapidapi-key': sportApiKey,
+          'x-rapidapi-host': 'v3.football.api-sports.io'
         },
         responseType: ResponseType.json));
 
