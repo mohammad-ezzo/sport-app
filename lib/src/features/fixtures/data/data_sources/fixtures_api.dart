@@ -6,11 +6,14 @@ import 'package:sport_app/src/features/fixtures/domain/entities/fixture.dart';
 import 'package:sport_app/src/service_locator.dart';
 
 class FixturesApi {
-  Future<List<Fixture>> getFixtures() async {
+  Future<List<Fixture>> getFixtures({
+    required String season,
+    required String leagueId,
+  }) async {
     try {
       return (BaseReponse<List<Fixture>>.fromJson(
               (await locator<Dio>().get(
-                "fixtures",
+                "fixtures?season=$season&league=$leagueId",
               ))
                   .data,
               Fixture.fromJsonList))

@@ -12,9 +12,11 @@ class FixturesRepositoryImpl extends FixturesRepository {
   FixturesRepositoryImpl(this.fixturesApi, this.fixturesPrefs);
 
   @override
-  Future<Either<Failure, List<Fixture>>> getFixtures() async {
-    throw UnimplementedError();
+  Future<Either<Failure, List<Fixture>>> getFixtures(
+      {required String season, required String leagueId}) async {
     try {
+      return Right(
+          await fixturesApi.getFixtures(season: season, leagueId: leagueId));
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     }

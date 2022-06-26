@@ -13,6 +13,6 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Container();
+    return Scaffold();
   }
 }
