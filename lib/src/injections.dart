@@ -10,7 +10,8 @@ final locator = GetIt.instance;
 initInjection() async {
   initRootLogger();
   injectNetwork();
-  locator.registerFactoryAsync<SharedPreferences>(
+  locator.registerSingletonAsync<SharedPreferences>(
       () => SharedPreferences.getInstance());
+  await locator.isReady<SharedPreferences>();
   injectFixture();
 }

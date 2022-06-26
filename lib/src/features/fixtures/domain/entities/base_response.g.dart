@@ -12,13 +12,12 @@ BaseReponse<T> _$BaseReponseFromJson<T>(
 ) =>
     BaseReponse<T>(
       get: json['get'] as String?,
-      response: _$nullableGenericFromJson(json['response'], fromJsonT),
+      response: fromJsonT(json['response']),
       parameters: (json['parameters'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(k, e as String),
       ),
-      errors: (json['errors'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String),
-      ),
+      errors:
+          (json['errors'] as List<dynamic>?)?.map((e) => e as String).toList(),
       results: json['results'] as int?,
       paging: json['paging'] == null
           ? null
@@ -35,17 +34,5 @@ Map<String, dynamic> _$BaseReponseToJson<T>(
       'errors': instance.errors,
       'results': instance.results,
       'paging': instance.paging,
-      'response': _$nullableGenericToJson(instance.response, toJsonT),
+      'response': toJsonT(instance.response),
     };
-
-T? _$nullableGenericFromJson<T>(
-  Object? input,
-  T Function(Object? json) fromJson,
-) =>
-    input == null ? null : fromJson(input);
-
-Object? _$nullableGenericToJson<T>(
-  T? input,
-  Object? Function(T value) toJson,
-) =>
-    input == null ? null : toJson(input);

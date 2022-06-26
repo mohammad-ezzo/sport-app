@@ -1,19 +1,19 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home.dart';
+part of 'team.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Home _$HomeFromJson(Map<String, dynamic> json) => Home(
+Team _$TeamFromJson(Map<String, dynamic> json) => Team(
       id: json['id'] as int?,
       name: json['name'] as String?,
       logo: json['logo'] as String?,
       winner: json['winner'] as bool?,
     );
 
-Map<String, dynamic> _$HomeToJson(Home instance) => <String, dynamic>{
+Map<String, dynamic> _$TeamToJson(Team instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'logo': instance.logo,

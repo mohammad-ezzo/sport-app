@@ -20,8 +20,12 @@ class Fixture {
 
   Fixture({this.info, this.league, this.teams, this.goals, this.score});
 
-  static List<Fixture> fromJsonList(List json) {
-    return json.map((e) => Fixture.fromJson(e)).toList();
+  static List<Fixture> fromJsonList(Object? json) {
+    if (json is List) {
+      if (json.isEmpty) return [];
+      return json.map((e) => Fixture.fromJson(e)).toList();
+    }
+    return [];
   }
 
   factory Fixture.fromJson(Map<String, dynamic> json) =>
@@ -38,6 +42,8 @@ class FixtureInfo {
   final Periods? periods;
   final Venue? venue;
   final Status? status;
+
+  bool get isFinished => ["FT", "AET", "PEN"].contains(status?.short);
 
   FixtureInfo(
       {this.id,

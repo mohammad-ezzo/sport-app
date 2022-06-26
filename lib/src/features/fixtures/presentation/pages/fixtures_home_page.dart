@@ -5,7 +5,7 @@ import 'package:sport_app/src/core/presentation/error_widget.dart';
 import 'package:sport_app/src/core/presentation/size_config.dart';
 import 'package:sport_app/src/features/fixtures/domain/entities/fixture.dart';
 import 'package:sport_app/src/features/fixtures/presentation/bloc/fixture_bloc.dart';
-import 'package:sport_app/src/service_locator.dart';
+import 'package:sport_app/src/injections.dart';
 
 class FixturesHomePage extends StatefulWidget {
   const FixturesHomePage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
   @override
   void initState() {
     super.initState();
-    _bloc.add(GetFixturesEvent(leagueId: "850", season: "2022"));
+    _bloc.add(GetFixturesEvent(leagueId: "850", season: "2023"));
   }
 
   @override
@@ -47,8 +47,14 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
               return const AppLoader();
             }
             if (state is FixturesReady) {
-              return TabBarView(
-                  children: [buildFinishedGames(), buildUpcomingGames()]);
+              return TabBarView(children: [
+                buildFinishedGames(state.fixtures
+                    .where((element) => (element.info?.isFinished ?? false))
+                    .toList()),
+                buildUpcomingGames(state.fixtures
+                    .where((element) => !(element.info?.isFinished ?? true))
+                    .toList())
+              ]);
             }
             if (state is ErrorInFixtures) {
               return AppErrorWidget(error: state.error);
@@ -67,8 +73,12 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
             child: ListView.builder(
                 itemCount: fixtures.length,
                 itemBuilder: (context, index) {
+                  final fixture = fixtures[index];
                   return Container(
-                    child: Row(children: []),
+                    child: Row(
+                        children: [
+                          fixture.teams?.home.
+                        ]),
                   );
                 }))
       ],
@@ -82,8 +92,11 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
             child: ListView.builder(
                 itemCount: fixtures.length,
                 itemBuilder: (context, index) {
+                  final fixture = fixtures[index];
+
                   return Container(
-                    child: Row(children: []),
+                    child: Row(
+                        children: [Text(fixture.info?.status?.short ?? "")]),
                   );
                 }))
       ],

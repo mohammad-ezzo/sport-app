@@ -7,8 +7,8 @@ part of 'full_time.dart';
 // **************************************************************************
 
 Fulltime _$FulltimeFromJson(Map<String, dynamic> json) => Fulltime(
-      home: json['home'] as String?,
-      away: json['away'] as String?,
+      home: json['home'] as int?,
+      away: json['away'] as int?,
     );
 
 Map<String, dynamic> _$FulltimeToJson(Fulltime instance) => <String, dynamic>{

@@ -3,8 +3,8 @@ part 'full_time.g.dart';
 
 @JsonSerializable()
 class Fulltime {
-  final String? home;
-  final String? away;
+  final int? home;
+  final int? away;
 
   Fulltime({this.home, this.away});
 

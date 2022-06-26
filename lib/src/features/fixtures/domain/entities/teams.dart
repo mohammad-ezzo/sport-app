@@ -1,12 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'home.dart';
+import 'team.dart';
 part 'teams.g.dart';
 
 @JsonSerializable()
 class Teams {
-  final Home? home;
-  final Home? away;
+  final Team? home;
+  final Team? away;
 
   Teams({this.home, this.away});
 

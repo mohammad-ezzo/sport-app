@@ -95,11 +95,11 @@ class LoggerInterceptor extends Interceptor {
     logPrint('');
   }
 
-  void _printKV(String key, Object v) {
+  void _printKV(String key, dynamic v) {
     logPrint('$key: $v');
   }
 
-  void _printKVError(String key, Object v) {
+  void _printKVError(String key, dynamic v) {
     logger.severe('$key: $v');
   }
 

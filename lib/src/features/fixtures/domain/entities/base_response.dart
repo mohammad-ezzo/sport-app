@@ -7,14 +7,14 @@ part 'base_response.g.dart';
 class BaseReponse<T> {
   final String? get;
   final Map<String, String>? parameters;
-  final Map<String, String>? errors;
+  final List<String>? errors;
   final int? results;
   final Paging? paging;
-  final T? response;
+  final T response;
 
   BaseReponse(
       {this.get,
-      this.response,
+      required this.response,
       this.parameters,
       this.errors,
       this.results,

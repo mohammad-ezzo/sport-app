@@ -9,10 +9,10 @@ part of 'teams.dart';
 Teams _$TeamsFromJson(Map<String, dynamic> json) => Teams(
       home: json['home'] == null
           ? null
-          : Home.fromJson(json['home'] as Map<String, dynamic>),
+          : Team.fromJson(json['home'] as Map<String, dynamic>),
       away: json['away'] == null
           ? null
-          : Home.fromJson(json['away'] as Map<String, dynamic>),
+          : Team.fromJson(json['away'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$TeamsToJson(Teams instance) => <String, dynamic>{
