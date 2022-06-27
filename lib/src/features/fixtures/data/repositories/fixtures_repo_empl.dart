@@ -6,6 +6,7 @@ import 'package:sport_app/src/features/fixtures/domain/entities/lineup.dart';
 import '../../domain/repositories/fixtures_repository.dart';
 import '../data_sources/fixtures_api.dart';
 import '../data_sources/fixtures_shared_prefs.dart';
+import 'package:sport_app/src/core/extentions.dart';
 
 class FixturesRepositoryImpl extends FixturesRepository {
   final FixturesApi fixturesApi;
@@ -16,10 +17,18 @@ class FixturesRepositoryImpl extends FixturesRepository {
   Future<Either<Failure, List<Fixture>>> getFixtures(
       {required String season, required String leagueId}) async {
     try {
-      return Right(
-          await fixturesApi.getFixtures(season: season, leagueId: leagueId));
+      if (cachIsValid()) {
+        return Right(fixturesPrefs.getFixtures());
+      }
+
+      final apiResult =
+          await fixturesApi.getFixtures(season: season, leagueId: leagueId);
+      fixturesPrefs.setFixtures(apiResult);
+      return Right(apiResult);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on CacheException catch (e) {
+      return Left(CacheFailure(e.message));
     }
   }
 
@@ -31,5 +40,11 @@ class FixturesRepositoryImpl extends FixturesRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     }
+  }
+
+  bool cachIsValid() {
+    final result = fixturesPrefs.getLastCachEntryDate();
+    return (result != null &&
+        ((DateTime.tryParse(result)?.isSameDate(DateTime.now())) ?? false));
   }
 }

@@ -5,6 +5,6 @@ class ServerException implements Exception {
 }
 
 class CacheException implements Exception {
-   final String message;
+  final String message;
   CacheException(this.message);
 }

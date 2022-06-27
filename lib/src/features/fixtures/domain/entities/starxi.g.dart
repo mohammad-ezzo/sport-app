@@ -13,5 +13,5 @@ StartXI _$StartXIFromJson(Map<String, dynamic> json) => StartXI(
     );
 
 Map<String, dynamic> _$StartXIToJson(StartXI instance) => <String, dynamic>{
-      'player': instance.player,
+      'player': instance.player?.toJson(),
     };

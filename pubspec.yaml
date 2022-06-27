@@ -42,7 +42,9 @@ dependencies:
   json_annotation: ^4.4.0
   get_it: ^7.2.0
   flutter_bloc:
+  hive_flutter: 
   intl:
+  path_provider: ^2.0.11
 dev_dependencies:
   flutter_test:
     sdk: flutter

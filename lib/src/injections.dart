@@ -13,5 +13,5 @@ initInjection() async {
   locator.registerSingletonAsync<SharedPreferences>(
       () => SharedPreferences.getInstance());
   await locator.isReady<SharedPreferences>();
-  injectFixture();
+  await injectFixture();
 }

@@ -25,11 +25,11 @@ Fixture _$FixtureFromJson(Map<String, dynamic> json) => Fixture(
     );
 
 Map<String, dynamic> _$FixtureToJson(Fixture instance) => <String, dynamic>{
-      'fixture': instance.info,
-      'league': instance.league,
-      'teams': instance.teams,
-      'goals': instance.goals,
-      'score': instance.score,
+      'fixture': instance.info?.toJson(),
+      'league': instance.league?.toJson(),
+      'teams': instance.teams?.toJson(),
+      'goals': instance.goals?.toJson(),
+      'score': instance.score?.toJson(),
     };
 
 FixtureInfo _$FixtureInfoFromJson(Map<String, dynamic> json) => FixtureInfo(
@@ -54,7 +54,7 @@ Map<String, dynamic> _$FixtureInfoToJson(FixtureInfo instance) =>
       'timezone': instance.timezone,
       'date': instance.date,
       'timestamp': instance.timestamp,
-      'periods': instance.periods,
-      'venue': instance.venue,
-      'status': instance.status,
+      'periods': instance.periods?.toJson(),
+      'venue': instance.venue?.toJson(),
+      'status': instance.status?.toJson(),
     };

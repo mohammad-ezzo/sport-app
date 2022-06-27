@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import 'package:sport_app/src/core/network/secrets.dart';
 
 import '../../injections.dart';
@@ -6,6 +7,7 @@ import '../app_constants.dart';
 import '../logger/app_logger.dart';
 import 'logger_interceptor.dart';
 
+// init dio config
 injectNetwork() async {
   locator.registerSingletonAsync<Dio>(() async {
     final dio = Dio(BaseOptions(
@@ -27,6 +29,7 @@ injectNetwork() async {
         return handler.next(options);
       },
     ));
+    // add logger interceptor
     dio.interceptors.add(LoggerInterceptor(
       logger,
       request: true,
