@@ -11,9 +11,21 @@ class FixturesReady extends FixtureState {
   FixturesReady(this.fixtures);
 }
 
+class LineupsReady extends FixtureState {
+  final List<Lineup> lineups;
+  LineupsReady(this.lineups);
+}
+
 class LoadingFixtures extends FixtureState {}
+
+class LoadingLineups extends FixtureState {}
 
 class ErrorInFixtures extends FixtureState {
   final String error;
   ErrorInFixtures(this.error);
+}
+
+class ErrorInLineups extends FixtureState {
+  final String error;
+  ErrorInLineups(this.error);
 }

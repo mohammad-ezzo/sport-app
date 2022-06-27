@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:sport_app/src/features/fixtures/domain/entities/fixture.dart';
+import 'package:sport_app/src/features/fixtures/domain/entities/lineup.dart';
 import 'package:sport_app/src/features/fixtures/domain/repositories/fixtures_repository.dart';
 
 part 'fixture_event.dart';
@@ -14,6 +15,13 @@ class FixtureBloc extends Bloc<FixtureEvent, FixtureState> {
           season: event.season, leagueId: event.leagueId);
       result.fold((l) => emit(ErrorInFixtures(l.errorMessage)),
           (r) => emit(FixturesReady(r)));
+    });
+
+    on<GetLineupsEvent>((event, emit) async {
+      emit(LoadingLineups());
+      final result = await _repository.getLineups(fixtureId: event.fixtureId);
+      result.fold((l) => emit(ErrorInLineups(l.errorMessage)),
+          (r) => emit(LineupsReady(r)));
     });
   }
 }
