@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sport_app/src/core/presentation/app_loader.dart';
 import 'package:sport_app/src/core/presentation/error_widget.dart';
+import 'package:sport_app/src/core/presentation/size_config.dart';
 import 'package:sport_app/src/features/fixtures/domain/entities/fixture.dart';
 import 'package:sport_app/src/features/fixtures/domain/entities/lineup.dart';
 import 'package:sport_app/src/features/fixtures/domain/entities/starxi.dart';
@@ -32,97 +33,102 @@ class _LineupPageState extends State<LineupPage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Lineups"),
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: SafeArea(
-          child: Column(
-        children: [
-          FixtureListTileWidget(fixture: widget.fixture),
-          Expanded(
-              child: Stack(children: [
-            const Stadium(),
-            BlocBuilder<FixtureBloc, FixtureState>(
-              builder: (context, state) {
-                if (state is LineupsReady) {
-                  if (state.lineups.isNotEmpty) {
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              if (state.lineups[0].formation != null)
-                                ...getLineupFormation(state.lineups[0])
-                                    .map((list) => Expanded(
-                                          child: Row(
-                                            children: [
-                                              ...list
-                                                  .map(
-                                                    (e) => PlayerWidget(
-                                                      player: e.player!,
-                                                      color: Colors.indigo,
-                                                    ),
-                                                  )
-                                                  .toList()
-                                            ],
-                                          ),
-                                        ))
-                                    .toList()
-                              else
-                                buildNoFormation()
-                            ],
+      body: ConstrainedBox(
+        // prevent background image on web from stretching too much.
+        constraints: const BoxConstraints(maxWidth: 600),
+        child: SafeArea(
+            child: Column(
+          children: [
+            FixtureListTileWidget(fixture: widget.fixture),
+            Expanded(
+                child: Stack(children: [
+              const Stadium(),
+              BlocBuilder<FixtureBloc, FixtureState>(
+                builder: (context, state) {
+                  if (state is LineupsReady) {
+                    if (state.lineups.isNotEmpty) {
+                      return Column(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [
+                                if (state.lineups[0].formation != null)
+                                  ...getLineupFormation(state.lineups[0])
+                                      .map((list) => Expanded(
+                                            child: Row(
+                                              children: [
+                                                ...list
+                                                    .map(
+                                                      (e) => PlayerWidget(
+                                                        player: e.player!,
+                                                        color: Colors.indigo,
+                                                      ),
+                                                    )
+                                                    .toList()
+                                              ],
+                                            ),
+                                          ))
+                                      .toList()
+                                else
+                                  buildNoFormation()
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              if (state.lineups[1].formation != null)
-                                ...getLineupFormation(state.lineups[1])
-                                    .map((list) => Expanded(
-                                          child: Row(
-                                            children: [
-                                              ...list
-                                                  .map(
-                                                    (e) => PlayerWidget(
-                                                      player: e.player!,
-                                                      color: Colors.red,
-                                                    ),
-                                                  )
-                                                  .toList()
-                                            ],
-                                          ),
-                                        ))
-                                    .toList()
-                              else
-                                buildNoFormation()
-                            ],
+                          Expanded(
+                            child: Column(
+                              children: [
+                                if (state.lineups[1].formation != null)
+                                  ...getLineupFormation(state.lineups[1])
+                                      .map((list) => Expanded(
+                                            child: Row(
+                                              children: [
+                                                ...list
+                                                    .map(
+                                                      (e) => PlayerWidget(
+                                                        player: e.player!,
+                                                        color: Colors.red,
+                                                      ),
+                                                    )
+                                                    .toList()
+                                              ],
+                                            ),
+                                          ))
+                                      .toList()
+                                else
+                                  buildNoFormation()
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    );
+                        ],
+                      );
+                    }
+                    return buildNoFormation();
                   }
-                  return buildNoFormation();
-                }
-                if (state is LoadingLineups) {
-                  return const AppLoader();
-                }
-                if (state is ErrorInLineups) {
-                  return AppErrorWidget(error: state.error);
-                }
+                  if (state is LoadingLineups) {
+                    return const AppLoader();
+                  }
+                  if (state is ErrorInLineups) {
+                    return AppErrorWidget(error: state.error);
+                  }
 
-                return const SizedBox();
-              },
-              buildWhen: (prev, curr) =>
-                  curr is LoadingLineups ||
-                  curr is LineupsReady ||
-                  curr is ErrorInLineups,
-            )
-          ]))
-        ],
-      )),
+                  return const SizedBox();
+                },
+                buildWhen: (prev, curr) =>
+                    curr is LoadingLineups ||
+                    curr is LineupsReady ||
+                    curr is ErrorInLineups,
+              )
+            ]))
+          ],
+        )),
+      ),
     );
   }
 
