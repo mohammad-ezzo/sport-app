@@ -18,12 +18,11 @@ class FixturesHomePage extends StatefulWidget {
 }
 
 class _FixturesHomePageState extends State<FixturesHomePage> {
-  final FixtureBloc _bloc = FixtureBloc(locator());
-
   @override
-  void initState() {
-    super.initState();
-    _bloc.add(GetFixturesEvent(leagueId: "850", season: "2023"));
+  void didChangeDependencies() {
+    BlocProvider.of<FixtureBloc>(context)
+        .add(GetFixturesEvent(leagueId: "850", season: "2023"));
+    super.didChangeDependencies();
   }
 
   @override
@@ -46,8 +45,11 @@ class _FixturesHomePageState extends State<FixturesHomePage> {
                 ],
               ),
               Expanded(
-                child: BlocBuilder(
-                  bloc: _bloc,
+                child: BlocBuilder<FixtureBloc, FixtureState>(
+                  buildWhen: (prev, curr) =>
+                      curr is LoadingFixtures ||
+                      curr is FixturesReady ||
+                      curr is ErrorInFixtures,
                   builder: (context, state) {
                     if (state is LoadingFixtures) {
                       return const AppLoader();
